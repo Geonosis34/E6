@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid  justify-content-evenly">
+
+    <div class="flex-grow-0" id="navbarColor01">
+      <a href="{% url 'main' %}" class="navbar-brand">Чат</a>
+    </div>
+
+    <div class="d-sm-none d-md-block text-center collapse collapse-horizontal text-light col-sm-6">
+      <a href="{% url 'main' %}" class="text-white text-decoration-none ">
+        <h2 class="mx-auto">Комната чата</h2>
+      </a>
+      <p class="mx-auto">Simple chat</p>
+    </div>
+
+    <div class=" d-flex">
+      {% if request.user.is_authenticated %}
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+            aria-expanded="false">{{ request.user.username }}</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'profile' %}">Профиль</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Выйти из профиля</a>
+          </div>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+
+  </div>
+</nav>

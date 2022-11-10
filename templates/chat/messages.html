@@ -1,0 +1,59 @@
+{% load static %}
+{% block styles %}
+{%endblock styles %}
+
+{% block scripts %}
+<script defer type="text/javascript" src="{% static 'js/messages.js' %}"></script>
+{%endblock scripts %}
+{% block messages %}
+
+<div id="board" class="d-flex flex-column h-100 overflow-auto">
+
+  {% for message in messages %}
+  {% if message.sender == request.user %}
+  <div class="card bg-secondary m-3  align-self-end">
+    <div class="card-header">
+      <img class="avatar" src="{% static message.sender.profile.avatar.url %}" alt="{{message.sender}}">
+      <span class="timestamp">on {{ message.timestamp }}</span>
+    </div>
+
+    <div class="card-body">
+      <h4 class="card-title">Вы</h4>
+      <p class="card-text">{{ message }}
+      </p>
+    </div>
+  </div>
+
+
+  {% else %}
+  <div class="card bg-light m-3  align-self-start">
+    <div class="card-header">
+      <img class="avatar" src="{% static message.sender.profile.avatar.url %}" alt="{{message.sender}}">
+      <span class="timestamp">on {{ message.timestamp }}</span>
+    </div>
+
+    <div class="card-body">
+      <h4 class="card-title">{{message.sender}}</h4>
+      <p class="card-text">{{ message }}
+      </p>
+    </div>
+  </div>
+
+  {% endif %}
+  {% endfor %}
+</div>
+<form id="chat-box" class="form-group 
+method=" post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label class="form-label mt-4">Поле ввода:</label>
+    <div class="form-group">
+      <div class="input-group mb-3">
+        <input id="message" name="message" type="text" class="form-control" placeholder="Введите сообщение..."
+          aria-label="Type your message..." aria-describedby="button-addon2">
+        <button class="btn btn-primary" type="submit" id="button-addon2">Отправить</button>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

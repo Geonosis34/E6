@@ -1,0 +1,44 @@
+{% extends 'chat/index.html' %}
+{% load static %}
+{% block title %}Вход в учетную запись{% endblock title %}
+{% block styles %}
+
+{%endblock styles %}
+
+{% block content %}
+
+<div class="mx-auto py-5 col-md-8 col-lg-6 col-sm-12">
+
+  <form id="login-form" method="post">
+    {% csrf_token %}
+    <fieldset>
+
+      <legend>Вход в учетную запись</legend>
+
+      <div class="form-group ">
+        <label for="username" class="form-label mt-4">Логин</label>
+        <input type="text" class="form-control" name="username" id="id_username" aria-describedby="username"
+          placeholder="Ваш логин">
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label mt-4">Пароль</label>
+        <input type="password" class="form-control" name="password" id="id_password" placeholder="Пароль">
+        <small id="disclaimer" class="form-text text-muted">Убедитесь, что ввели корректно данные для входа</small>
+      </div>
+
+      <div class="form-group d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Логин</button>
+        <a href="{% url 'register' %}">
+          <button type="button" class="btn btn-outline-primary">
+            Регистрация
+          </button>
+        </a>
+      </div>
+
+    </fieldset>
+  </form>
+
+</div>
+
+{% endblock %}

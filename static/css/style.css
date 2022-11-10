@@ -1,0 +1,19 @@
+.status {
+  position: absolute;
+  left: -1ch;
+  top: 0;
+}
+
+.selected {
+  background: lightcyan !important;
+}
+.profile-view {
+  display: flex;
+  flex-flow: row wrap;
+}
+.avatar {
+  max-width: 2.5em;
+}
+.tooltip {
+  opacity: 1 !important;
+}

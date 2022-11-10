@@ -1,0 +1,58 @@
+{% extends 'chat/index.html' %}
+{% load static %}
+{% block title %}Room Page{% endblock title %}
+{% block script %}
+<script defer type="text/javascript" src="{% static 'js/room.js' %}"></script>
+{% endblock script %}
+
+{% block content %}
+
+<h1 class="text-center  py-5">
+  Страница чата
+</h1>
+
+<div class="col-lg-6 col-md8 col sm-12 py-4 mx-auto">
+  <section class="row">
+
+    <h3>Выбор пользователя</h3>
+
+    <ul class="list-group">
+      {% for user in users %}
+      <li id="{{ user.id }}" class="list-group-item d-flex  chat-user justify-content-between align-items-center">
+        <img src="{% static  user.profile.avatar.url %}" class="col-2 rounded-circle">
+        <span class="title">{{ user.username }}</span>
+
+        {% if user.profile.is_online %}
+        <span class="badge bg-primary rounded-pill">
+          Online
+        </span>
+        {% else %}
+        <span class="badge bg-light rounded-pill">
+          Offline
+        </span>
+        {% endif %}
+
+      </li>
+      {% endfor %}
+    </ul>
+
+  </section>
+
+
+  <form id="new-chat" class="form-group method=" POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label class="form-label mt-4">Создать новый чат</label>
+      <div class="form-group">
+        <div class="input-group mb-3">
+          <input type="text" id="room-name-input" class="form-control" placeholder="Chat Name" aria-label="Chat Name"
+            aria-describedby="room-name-submit">
+          <button class="btn btn-primary" type="submit" id="room-name-submit">Создать</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+{{ room_name|json_script:"room-name" }}
+{%endblock  %}

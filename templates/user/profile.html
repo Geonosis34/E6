@@ -1,0 +1,103 @@
+{% extends 'chat/index.html' %}
+{% load static %}
+{% block title %}Profile Page{% endblock title %}
+{% block styles %}
+{%endblock styles %}
+{% block content %}
+
+<div class="profile-view d-flex justify-content-evenly">
+  <section class="profile col-md-6 col-sm-12">
+    <div class="my-3 p-3">
+
+      <h3 class="text-center text-md-start">Учетная запись пользователя {{user.username}}</h3>
+
+      {% if user_form.errors %}
+      <div class="alert alert-danger alert-dismissible" role="alert">
+
+        <div id="form_errors">
+          {% for key, value in user_form.errors.items %}
+          <strong>{{ value }}</strong>
+          {% endfor %}
+        </div>
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      {% endif %}
+
+      <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label class="small mb-1">Логин:</label>
+                {{ user_form.username }}
+                <label class="small mb-1">Почта:</label>
+                {{ user_form.email }}
+              </div>
+              <div class="form-group">
+                <hr>
+                <img class="avatar" src="{% static  user.profile.avatar.url %}" />
+                <label class="small mb-1">Сменить аватар:</label>
+                {{ profile_form.avatar }}
+              </div>
+              <label class="small mb-1">Дополнительная информация:</label> {{ profile_form.bio }}
+            </div>
+          </div>
+          <br><br>
+          <button type="submit" class="btn btn-dark btn-lg">Сохранить изменения</button>
+          <button type="reset" class="btn btn-outline-dark btn-lg">Отменить</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="chats col-md-4 col-sm-12">
+    <div class="my-3 p-3">
+      <h3 class="text-center">
+        Ваши чаты
+      </h3>
+      <div class="d-flex justify-content-center ">
+        <ol>
+          {% for chat in chats %}
+          <li>
+            <a href="{%url 'chat'  chat.room_name %}">
+              {{chat.room_name | capfirst}}
+            </a> с пользователями:
+
+            <ul class="list-group">
+              {% for user in chat.members.all %}
+
+              <li id="{{ user.id }}"
+                class="list-group-item d-flex  chat-user justify-content-between align-items-center">
+                <img src="{% static  user.profile.avatar.url %}" class="col-2 rounded-circle">
+                <span class="title">{{ user.username }}</span>
+
+                {% if user.profile.is_online %}
+                <span class="badge bg-primary rounded-pill">
+                  Online
+                </span>
+                {% else %}
+                <span class="badge bg-light rounded-pill">
+                  Offline
+                </span>
+                {% endif %}
+              </li>
+              {% endfor %}
+
+            </ul>
+
+          </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+{% endblock content %}
